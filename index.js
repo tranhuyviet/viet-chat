@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import { typeDefs } from './graphql/typeDefs';
-import { resolvers } from './graphql/resolvers';
+import typeDefs from './graphql/typeDefs';
+import resolvers from './graphql/resolvers';
 
 const server = new ApolloServer({
     typeDefs,

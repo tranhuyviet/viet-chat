@@ -1,7 +1,20 @@
 import { gql } from 'apollo-server';
-export const typeDefs = gql`
+export default gql`
+    type User {
+        _id: ID!
+        name: String!
+        email: String!
+        avatarUrl: String
+        createdAt: String!
+        token: String!
+    }
+
     type Query {
-        "A simple type for getting started!"
-        hello: String
+        users: [User]!
+    }
+
+    type Mutation {
+        # USER
+        signup(name: String!, email: String!, password: String!, confirmPassword: String!): User!
     }
 `;
