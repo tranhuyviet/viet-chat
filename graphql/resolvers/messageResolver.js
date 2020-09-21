@@ -38,10 +38,21 @@ export default {
                     createdAt: new Date().toISOString(),
                 });
 
-                await newMessage.save();
-                const returnMessage = await Message.findById(newMessage._id);
-                // console.log(returnMessage);
-                return returnMessage;
+                await newMessage.save().then((message) =>
+                    message
+                        .populate({
+                            path: 'from',
+                            select: 'name avatarUrl',
+                        })
+                        .populate({
+                            path: 'to',
+                            select: 'name avatarUrl',
+                        })
+                        .execPopulate()
+                );
+
+                // console.log(newMessage);
+                return newMessage;
             } catch (error) {
                 return error;
             }
