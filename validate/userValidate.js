@@ -16,3 +16,8 @@ export const signupValidate = Yup.object({
     password,
     confirmPassword,
 });
+
+export const loginValidate = Yup.object({
+    email,
+    password,
+});

@@ -1,10 +1,41 @@
 import User from '../../models/userModel';
-import { signupValidate } from '../../validate/userValidate';
+import { signupValidate, loginValidate } from '../../validate/userValidate';
 import { UserInputError } from 'apollo-server';
 import errorParse from '../../utils/errorParse';
 
 export default {
+    Query: {
+        // LOGIN
+        login: async (_, args) => {
+            try {
+                let errors = {};
+
+                // VALIDATE INPUT DATA: email, password
+                try {
+                    await loginValidate.validate(args, { abortEarly: false });
+                } catch (error) {
+                    errors = errorParse(error);
+                    throw new UserInputError('LOGIN ERROR - VALIDATE', { errors });
+                }
+
+                const { email, password } = args;
+
+                const user = await User.findOne({ email });
+
+                // CHECK EMAIL AND CORRECT PASSWORD
+                if (!user || !user.isValidPassword(password)) {
+                    errors.global = 'Invalid credentials';
+                    throw new UserInputError('LOGIN ERROR - INVALID CREDENTIALS', { errors });
+                }
+
+                return user.returnAuthUser();
+            } catch (error) {
+                return error;
+            }
+        },
+    },
     Mutation: {
+        // SIGNUP
         signup: async (_, args) => {
             try {
                 let errors = {};
