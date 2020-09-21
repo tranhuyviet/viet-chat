@@ -9,12 +9,25 @@ export default gql`
         token: String!
     }
 
+    type Message {
+        _id: ID!
+        message: String!
+        from: User!
+        to: User!
+        createdAt: String!
+    }
+
     type Query {
+        # USER
         login(email: String!, password: String!): User!
+        getUsers: [User!]!
     }
 
     type Mutation {
         # USER
         signup(name: String!, email: String!, password: String!, confirmPassword: String!): User!
+
+        # MESSAGE
+        sendMessage(to: ID!, message: String!): Message!
     }
 `;

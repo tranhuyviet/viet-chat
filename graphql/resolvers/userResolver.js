@@ -2,6 +2,7 @@ import User from '../../models/userModel';
 import { signupValidate, loginValidate } from '../../validate/userValidate';
 import { UserInputError } from 'apollo-server';
 import errorParse from '../../utils/errorParse';
+import checkAuth from '../../utils/checkAuth';
 
 export default {
     Query: {
@@ -29,6 +30,22 @@ export default {
                 }
 
                 return user.returnAuthUser();
+            } catch (error) {
+                return error;
+            }
+        },
+
+        // GET USERS
+        getUsers: async (_, __, context) => {
+            try {
+                const user = checkAuth(context);
+                if (!user) {
+                    throw new AuthenticationError('ERROR - UNAUTHENTICATED');
+                }
+
+                const users = await User.find();
+
+                return users;
             } catch (error) {
                 return error;
             }
