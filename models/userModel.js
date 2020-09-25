@@ -40,9 +40,10 @@ userSchema.methods.generateJWT = function generateJWT() {
     return jwt.sign(
         {
             _id: this._id,
-            // name: this.name,
-            // email: this.email,
-            // avatarUrl: this.avatarUrl,
+            name: this.name,
+            email: this.email,
+            avatarUrl: this.avatarUrl,
+            createdAt: this.createdAt,
         },
         process.env.JWT_SECRET
     );

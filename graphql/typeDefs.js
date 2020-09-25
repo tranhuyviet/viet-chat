@@ -21,6 +21,9 @@ export default gql`
         # USER
         login(email: String!, password: String!): User!
         getUsers: [User!]!
+
+        # MESSAGE
+        getMessages(withUser: ID!): [Message]!
     }
 
     type Mutation {
@@ -29,5 +32,9 @@ export default gql`
 
         # MESSAGE
         sendMessage(to: ID!, message: String!): Message!
+    }
+
+    type Subscription {
+        newMessage: Message!
     }
 `;

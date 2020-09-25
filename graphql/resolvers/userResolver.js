@@ -43,7 +43,7 @@ export default {
                     throw new AuthenticationError('ERROR - UNAUTHENTICATED');
                 }
 
-                const users = await User.find();
+                const users = await User.find({ _id: { $ne: user._id } });
 
                 return users;
             } catch (error) {

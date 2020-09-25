@@ -6,11 +6,12 @@ dotenv.config();
 
 import typeDefs from './graphql/typeDefs';
 import resolvers from './graphql/resolvers';
+import checkAuth from './utils/checkAuth';
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => ({ req }),
+    context: checkAuth,
 });
 
 (async () => {
